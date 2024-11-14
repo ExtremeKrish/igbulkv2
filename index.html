@@ -136,15 +136,23 @@ b {
 	}
 
 	function showCover(key) {
-		document.getElementById("coverTitle").textContent = key;
-		document.getElementById("coverTitle").style.display = "block";
+		document.querySelector("h1").textContent = key;
+		document.querySelector(".top").style.display = "block";
+		document.querySelector(".btm").style.display = "flex";
+		document.querySelector("h1").style.display = "flex";
+document.querySelector("h3").style.display = "none";
+
 		document.getElementById("slideText").style.display = "none";
 	}
 
 	function showSlide(text) {
-		document.getElementById("coverTitle").style.display = "none";
+		document.querySelector(".top").style.display = "none";
+		document.querySelector(".btm").style.display = "none";
+		document.querySelector("h1").style.display = "none";
+document.querySelector("h3").style.display = "block";
+
 		document.getElementById("slideText").textContent = text;
-		document.getElementById("slideText").style.display = "block";
+		
 	}
 
 	function downloadSlide(filename) {
