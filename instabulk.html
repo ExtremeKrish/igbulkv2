@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Instabulk</title>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/mfd/f3d96ec7f0e8f034cc22ea73b3797b59/raw/856f1dbb8d807aabceb80b6d4f94b464df461b3e/gotham.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<style type="text/css">
+		* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    height: 100%;
+
+}
+
+.parent {
+    height: 100%;
+    width: 100%;
+    background: #bdbdbd;
+    display: flex;
+    font-family: GothamPro;
+}
+
+.post {
+    height: 100%;
+    background: black;
+    aspect-ratio: .8;
+    color: white;
+    justify-content: center;
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+
+}
+
+.post h1 {
+    font-size: 40px;
+}
+
+.post .btm img {
+
+    width: 80px;
+    position: absolute;
+    bottom: 0;
+
+}
+
+.btm {
+    display: flex;
+    justify-content: right;
+}
+
+.top {
+    position: absolute;
+    top: 24px;
+}
+
+.top img {
+    height: 80px;
+    fill: white;
+
+}
+
+span {
+    position: absolute;
+    left: 24px;
+    bottom: 36px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #bdbdbd;
+}
+
+h3 {
+    font-family: "EB Garamond", serif;
+    font-size: 25px;
+    font-weight: 400;
+    padding: 0 24px;
+}
+
+b {
+    font-weight: 500;
+    color: white;
+}
+	</style>
+</head>
+<body>
+
+<div class="parent">
+	<div class="post" id="post">
+		<div class="top"><img src="alpha.png"></div>
+		<h1 id="coverTitle">5 Psychological Tricks</h1>
+		<h3 id="slideText">Here will be slides text</h3>
+		<div class="btm">
+			<span>Presented by <b>@alpha_tenet</b></span>
+			<img src="scroll.png">
+		</div>
+	</div>
+	<div class="pref">
+		<button onclick="downloadCarousels()">Download</button>
+	</div>
+</div>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+	const data = {
+		"5 Psychological Tricks": ["First trick", "Second trick", "Last trick"],
+		"2 Psychological Tips": ["Quick tip 1", "Quick tip 2"]
+	};
+
+	let currentKey = "";
+	let currentIndex = 0;
+
+	function downloadCarousels() {
+		Object.keys(data).forEach((key, index) => {
+			currentKey = key;
+			currentIndex = 0;
+			showCover(key); // Show cover page
+			downloadSlide(`${index + 1}.png`);
+
+			data[key].forEach((text, i) => {
+				setTimeout(() => { // Delay for downloading each slide
+					showSlide(text);
+					downloadSlide(`${index + 1}_${i + 1}.png`);
+				}, 1000 * (i + 1));
+			});
+		});
+	}
+
+	function showCover(key) {
+		document.getElementById("coverTitle").textContent = key;
+		document.getElementById("coverTitle").style.display = "block";
+		document.getElementById("slideText").style.display = "none";
+	}
+
+	function showSlide(text) {
+		document.getElementById("coverTitle").style.display = "none";
+		document.getElementById("slideText").textContent = text;
+		document.getElementById("slideText").style.display = "block";
+	}
+
+	function downloadSlide(filename) {
+		html2canvas(document.getElementById("post"), {
+                        scale: 5, // Increase the scale value for higher quality
+                        removeContainer: true, // Remove the container from the rendered image
+                        backgroundColor: null // Set the background color to be transparent
+                    }).then(function(canvas){
+			const link = document.createElement("a");
+			link.download = filename;
+			link.href = canvas.toDataURL("image/png");
+			link.click();
+		});
+	}
+
+	
+</script>
+
+</body>
+</html>
